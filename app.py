@@ -17,9 +17,7 @@ def hello_world():
 def search_movie():
     data = df.copy()
     movie = str(request.form.get("movie"))
-    print(movie)
     movie_id = data[data.Title == movie]['Movie_id'].values[0]
-    print(movie_id)
     requested_columns = []
     for key, val in request.form.items():
         if key != 'movie':
