@@ -44,6 +44,10 @@ def search_movie():
     return render_template('index.html', movies=movies)
 
 
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
 def get_important_columns(req_features):
     imp_columns = []
     for i in range(0, df.shape[0]):
