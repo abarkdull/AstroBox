@@ -16,12 +16,12 @@ movie_titles = list(df['Title'])
 
 @app.route('/')
 def hello_world():
-    return render_template("index.html", movie_titles=movie_titles)
+    return render_template("index.html", movie_titles=movie_titles, disabled="disabled")
 
 
 @app.route('/optimal')
 def view_optimal_results():
-    bar_chart_data= [optimal_chart_data, user_chart_data]
+    bar_chart_data= [optimal_chart_data, user_chart_data - 1]
     return render_template('optimal.html', movie_titles=movie_titles, user_results=user_scores, optimal_results=optimal_scores, optimal_chart_data=bar_chart_data)
 
 
@@ -34,12 +34,12 @@ def search_movie():
 
     # If form is missing paramaters return an error message
     if len(request.form.to_dict()) == 1:
-        return render_template('index.html', previous_input = movie, movie_titles=movie_titles, error_message="Please select a paramater.")
+        return render_template('index.html', disabled='disabled', previous_input = movie, movie_titles=movie_titles, error_message="Please select a paramater.")
 
     try:
         movie_id = data[data.Title == movie]['Movie_id'].values[0]
     except:
-        return render_template('index.html', movie_titles=movie_titles, error_message="Movie not found :(")
+        return render_template('index.html', disabled='disabled', movie_titles=movie_titles, error_message="Movie not found :(")
 
     requested_columns = []
     for key, val in request.form.items():
@@ -106,6 +106,7 @@ def get_doughnut_data(cs_scores):
 
     # data = [80%+, 60-80, 40-60, 20-40, 20-]
     data = [0,0,0,0,0]
+    cs_scores = cs_scores[1:]
     for item in cs_scores:
         s = item[1] * 100
         if s >= 60:

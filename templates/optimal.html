@@ -50,9 +50,10 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script>
                 const data = {
-                  labels: ['Optimal','User'],
+                  labels: ['Optimal search','User Search'],
                   datasets: [{
                     axis: 'y',
+                    label: 'Optimal vs. User Results',
                     data: {{ optimal_chart_data | safe }},
                     fill: false,
                     backgroundColor: [

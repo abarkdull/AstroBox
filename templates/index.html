@@ -4,8 +4,8 @@
     <div class="container">
         <div class="jumbotron jumbotron-fluid">
           <div class="container">
-            <h1 class="display-4">MovieBox Magic Recommender</h1>
-            <p class="lead">Enter a movie for a recommendation!</p>
+            <h1 class="display-4">AstroBox+ Movie Recommender</h1>
+            <p class="lead">Contains movies released between 2006 - 2016</p>
           </div>
         </div>
         <div class="left-element">
@@ -85,7 +85,7 @@
             </div>
             <div class="optimal-button">
               <form action="/optimal" method="get">
-                <button id="submit-button" type="submit" class="btn btn-primary">Optimal Results -></button>
+                <button id="submit-button" type="submit" class="btn btn-primary" {{ disabled }}>Optimal Results -></button>
               </form>
             </div>
         </div>
@@ -96,11 +96,11 @@
     <script>
         const data2 = {
           labels: [
-            'High (>80%)',
-            'Med-High (60% - 80%',
-            'Medium (40 - 60%)',
-            'Med-Low (20 - 40%)',
-            'Low (0-20%)'
+            'High (>60%)',
+            'Med-High (40% - 60%',
+            'Medium (20% - 40%)',
+            'Med-Low (10% - 20%)',
+            'Low (<10%)'
           ],
           datasets: [{
             label: 'My First Dataset',

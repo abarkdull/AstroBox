@@ -25,7 +25,7 @@
 
 h2 {
     margin: auto;
-    width: 50%;
+    width: 60%;
     padding: 10px;
 }
 
@@ -80,6 +80,7 @@ h2 {
 #error-message {
     color: red;
     font-weight: bold;
+    padding-top: 8px;
 }
 
 
