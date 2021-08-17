@@ -1,0 +1,104 @@
+{%  extends 'layout.html' %}
+
+{% block body %}
+
+    <div class="container2">
+        <div class="left-table">
+            <h2><u>User Query Selection(s)</u></h2>
+            <table class="table table-striped">
+
+              <thead>
+                <tr>
+                  <th scope="col">Movie Title</th>
+                  <th scope="col">Similarity Score (%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for movie in user_results %}
+                <tr>
+                    <td>{{ movie[0] }}</td>
+                    <td> {{ movie[1] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+        </div>
+        <div class="right-table">
+            <h2><u>Optimal Query Selections</u></h2>
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th scope="col">Movie Title</th>
+                  <th scope="col">Similarity Score (%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for movie in optimal_results %}
+                <tr>
+                    <td>{{ movie[0] }}</td>
+                    <td> {{ movie[1] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+
+
+        <div class="newChart">
+            <canvas id="barChart4"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                const data = {
+                  labels: ['Optimal','User'],
+                  datasets: [{
+                    axis: 'y',
+                    data: {{ optimal_chart_data | safe }},
+                    fill: false,
+                    backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(255, 159, 64, 0.2)',
+                    ],
+                    borderColor: [
+                      'rgb(255, 99, 132)',
+                      'rgb(255, 159, 64)',
+                    ],
+                    borderWidth: 1
+                  }]
+                };
+
+                const config = {
+                  type: 'bar',
+                  data,
+                  options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Number of positive similarities found',
+                            font: {
+                                size: 20
+                            }
+                        }
+                    },
+                    indexAxis: 'y',
+                  }
+                };
+
+                var barChart4 = new Chart(
+                    document.getElementById('barChart4'),
+                    config
+                );
+
+            </script>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+{% endblock %}
