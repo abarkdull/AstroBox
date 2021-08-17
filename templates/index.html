@@ -2,63 +2,143 @@
 
 {% block body %}
     <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href="#">MovieBox.com</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="https://github.com/abarkdull">Source Code (GitHub)</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
         <div class="jumbotron jumbotron-fluid">
           <div class="container">
-            <h1 class="display-4">MobieBox Magic Recommender</h1>
-            <p class="lead">Enter an movie for a recommendation!</p>
+            <h1 class="display-4">MovieBox Magic Recommender</h1>
+            <p class="lead">Enter a movie for a recommendation!</p>
           </div>
         </div>
         <div class="left-element">
             <form action="/search" method="post">
                 <div class="form-outline">
-                    <input type="text" name="movie" id="movie" class="form-control" placeholder="Enter a movie"
-                    aria-label="Search" />
+                    <input type="text" name="movie" id="movie" class="form-control" value="{{ previous_input }}" placeholder="Enter a movie"
+                    aria-label="Search" list="movie-list" />
+                    <datalist id="movie-list">
+                        {% for title in movie_titles %}
+                        <option>{{ title }}</option>
+                        {% endfor %}
+                    </datalist>
                 </div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="actors" value="Actors" name="actors">
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Actors</label>
+                <div class="left-checkboxes">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="actors" value="Actors" name="actors">
+                      <label class="form-check-label" for="flexSwitchCheckDefault">Actors</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="Director" value="Director" name="director">
+                      <label class="form-check-label" for="flexSwitchCheckChecked">Director</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="Description" value="Description" name="description">
+                      <label class="form-check-label" for="flexSwitchCheckChecked">Description</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="Runtime" value="Runtime (Minutes)" name="runtime">
+                      <label class="form-check-label" for="flexSwitchCheckChecked">Runtime</label>
+                    </div>
                 </div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="Director" value="Director" name="director">
-                  <label class="form-check-label" for="flexSwitchCheckChecked">Director</label>
+                <div class="right-checkboxes">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="Genre" value="Genre" name="genre">
+                      <label class="form-check-label" for="flexSwitchCheckDisabled">Genre</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="year" value="Year" name="year">
+                      <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Release Year</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="Revenue" value="Revenue (Millions)" name="revenue">
+                      <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Revenue</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="Metacritic" value="Metascore" name="metascore">
+                      <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Metascore</label>
+                    </div>
                 </div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="Genre" value="Genre" name="genre">
-                  <label class="form-check-label" for="flexSwitchCheckDisabled">Genre</label>
-                </div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="year" value="Year" name="year">
-                  <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Release Year</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Primary</button>
+                <button id="submit-button" type="submit" class="btn btn-primary">Find Recommendations!</button>
             </form>
+            <div class="error">
+                <h4 id="error-message">{{ error_message }}</h4>
+            </div>
+            <div class="chartBox">
+                <canvas id="horizBarChar"></canvas>
+            </div>
         </div>
         <div class="right-element">
             <div class="Results">
-                <ul class="list-group list-group-flush">
-                  {% for movie in movies %}
-                  <li class="list-group-item">{{ movie }}</li>
-                  {% endfor %}
-                </ul>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Movie Title</th>
+                      <th scope="col">Similarity Score (%)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td>{{ result[0] }}</td>
+                        <td> {{ result[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+            <div class="optimal-button">
+              <form action="/optimal" method="get">
+                <button id="submit-button" type="submit" class="btn btn-primary">Optimal Results -></button>
+              </form>
             </div>
         </div>
+
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const data2 = {
+          labels: [
+            'High (>80%)',
+            'Med-High (60% - 80%',
+            'Medium (40 - 60%)',
+            'Med-Low (20 - 40%)',
+            'Low (0-20%)'
+          ],
+          datasets: [{
+            label: 'My First Dataset',
+            data: {{ data_values | safe }},
+            backgroundColor: [
+              'rgb(255, 99, 132)',
+              'rgb(54, 162, 235)',
+              'rgb(255, 205, 86)',
+              'rgb(0, 255, 128)',
+              'rgb(0, 255, 255)'
+            ],
+            hoverOffset: 5
+          }]
+          };
+
+          const config2 = {
+              type: 'doughnut',
+              data: data2,
+              options: {
+                  plugins: {
+                      title: {
+                          display: true,
+                          text: 'Accuracy of recommendations',
+                          font: {
+                              size: 20,
+                          }
+                      }
+                  }
+              }
+          };
+
+          const myChart = new Chart(
+              document.getElementById('horizBarChar'),
+              config2
+          );
+
+
+    </script>
 {% endblock %}
 
 

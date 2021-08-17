@@ -3,30 +3,100 @@
     padding-left: 100px;
 }
 
+.Results {
+    float: left;
+}
+
 .jumbotron {
     background-color: #0d6efd;
     border-radius: 10px;
-    margin-right: 300px;
+    margin: 0 auto;
     margin-top: 20px;
+    margin-bottom: 20px;
+}
 
+.display-4 {
+    color: white;
+}
+
+.lead {
+    color: white;
+}
+
+h2 {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.optimal-chart {
+    width: 500px;
+    height: 400px;
 }
 
 .container {
     position: relative;
     padding: 0;
-    margin: 0;
+    margin: 0 auto;
     left: 10px;
+    width: 87%;
 }
 
-.left-element {
-    display: inline-block;
+.container2 {
+    position: relative;
+    padding: 0;
+    margin: 0 auto;
+    left: 10px;
+    width: 75%;
+}
+
+.left-table {
     float: left;
+    display: inline-block;
+}
+
+.right-table {
+    float: right;
+    display: inline-block;
+}
+
+.chartBox {
+    width: 500px;
+    height: 500px;
+    padding-top: 40px;
+}
+
+.left-checkboxes {
+    float: left;
+    width: 150px;
+}
+
+.right-checkboxes {
+    display: inline-block;
+    padding-right: 80px;
+    float: right;
+}
+
+#error-message {
+    color: red;
+    font-weight: bold;
+}
+
+
+.left-element {
+    float: left;
+    display: inline-block;
+    width: 50%;
+}
+
+#submit-button {
+    margin-top: 30px;
 }
 
 .right-element {
     display: inline-block;
-    float: right;
-    margin-right: 100px;
+    float: left;
+    padding-left: 55px;
 }
 
 .form-outline {
@@ -47,4 +117,8 @@
 
 .list-group-flush {
     float: right;
+}
+
+.navbar-brand {
+    padding-left: 20px;
 }
