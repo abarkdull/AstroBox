@@ -1,4 +1,4 @@
-# flaskProject
+# AstroBox
 
 - Movie recommendation web application
 - Created using FLask and Python for backend, and HTML, CSS, JS, Bootstrap, and Chart.js for front end
